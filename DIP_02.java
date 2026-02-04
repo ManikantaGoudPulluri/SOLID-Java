@@ -8,33 +8,52 @@ public class DIP_02 {
      * Fix this!
      */
     
-    public static interface Notification {
-        void doNotify();
+     public interface NotificationService {
+        void sendNotification(String employeeName, String message);
     }
 
-    public static class EmailNotification implements Notification {
+    public static class EmailNotificationService implements NotificationService {
         @Override
-        public void doNotify() {
-            System.out.println("Sending notification via email!");
+        public void sendNotification(String employeeName, String message) {
+            System.out.println("Sending email to " + employeeName + ": " + message);
+        }
+    }
+
+    public static class SMSNotificationService implements NotificationService {
+        @Override
+        public void sendNotification(String employeeName, String message) {
+            System.out.println("Sending SMS to " + employeeName + ": " + message);
         }
     }
 
     public static class Employee {
-        private EmailNotification emailNotification;
+        private String name;
+        private NotificationService notificationService;
 
-        // Dependency Injection (again) composition
-        public Employee(EmailNotification emailNotification) {
-            this.emailNotification = emailNotification;
+        public Employee(String name, NotificationService notificationService) {
+            this.name = name;
+            this.notificationService = notificationService;
         }
-    
-        public void notifyEmployee() {
-            emailNotification.doNotify();
+
+        public void requestBonus() {
+            System.out.println("Bonus requested for " + name);
+            notificationService.sendNotification(this.name, "Your bonus request has been submitted.");
+        }
+
+        public String getName() {
+            return name;
         }
     }
 
     public static void main(String[] args) {
-        EmailNotification emailNotification = new EmailNotification();
-        Employee employee = new Employee(emailNotification);
-        employee.notifyEmployee();
+        NotificationService emailService = new EmailNotificationService();
+        Employee employee1 = new Employee("Alice_DIP02", emailService);
+        employee1.requestBonus();
+
+        System.out.println("---");
+
+        NotificationService smsService = new SMSNotificationService();
+        Employee employee2 = new Employee("Bob_DIP02", smsService);
+        employee2.requestBonus();
     }
 }

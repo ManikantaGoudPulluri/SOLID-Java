@@ -12,8 +12,8 @@ public class SRP_01 {
      */
 
     public static class User {
-        private String name;
-        private String email;
+        private final String name;
+        private final String email;
     
         public User(String name, String email) {
             this.name = name;
@@ -23,25 +23,27 @@ public class SRP_01 {
         public String getName() {
             return name;
         }
-        
+
         public String getEmail() {
             return email;
         }
+    }
 
-        public void saveToFile() {
-            try (FileWriter fileWriter = new FileWriter(name + ".txt")) {
-                fileWriter.write("Name: " + name + "\n");
-                fileWriter.write("Email: " + email + "\n");
+    public static class UserRepository {
+        public void saveToFile(User user) {
+            try (FileWriter fileWriter = new FileWriter(user.getName() + ".txt")) {
+                fileWriter.write("Name: " + user.getName() + "\n");
+                fileWriter.write("Email: " + user.getEmail() + "\n");
                 System.out.println("User data saved successfully!");
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-            
+
     public static void main(String[] args) {
-        User user = new User("Clemens", "clemens@company.com");
-        user.saveToFile();
+        User user = new User("Clemens_SRP01", "clemens_srp01@company.com");
+        UserRepository repository = new UserRepository();
+        repository.saveToFile(user);
     }
 }
