@@ -1,0 +1,25 @@
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Build folders
+bin/
+out/
+target/
+build/
+
+# Eclipse / IntelliJ
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
